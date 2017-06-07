@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	    http://www.springframework.org/schema/util
+	    http://www.springframework.org/schema/util/spring-util.xsd
+	    http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <description>vua-upms</description>
+
+    <context:property-placeholder location="classpath:vua-upms-client.properties" />
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="${sso.server.url}" />
+        <property name="successUrl" value="${upms.successUrl}" />
+        <property name="unauthorizedUrl" value="${upms.unauthorizedUrl}" />
+
+        <property name="filters" >
+            <util:map>
+                <entry key="authc" value-ref="upmsAuthenticationFilter" />
+            </util:map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /manage/** = authc,upmsSessionForceLogout
+                /manage/index = user
+                /druid/** = user
+                /swagger-ui.html = user
+                /resources/** = user
+                /** = anon
+            </value>
+        </property>
+    </bean>
+
+    <bean id="upmsAuthenticationFilter" class="com.vua.upms.client.shiro.filter.UpmsAuthenticationFilter" />
+
+    <bean id="sessionDAO" class="com.vua.upms.client.shiro.session.UpmsSessionDao" />
+</beans>

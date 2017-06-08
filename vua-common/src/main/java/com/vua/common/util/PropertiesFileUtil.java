@@ -18,7 +18,7 @@ public class PropertiesFileUtil {
     //cache time
     private static final Integer TIME_OUT = 60 * 1000;
     //default file name
-    private static final String NAME = "config";
+    private static final String NAME = "vua-upms-client";
 
     //private init method creat single
     private PropertiesFileUtil(String name){

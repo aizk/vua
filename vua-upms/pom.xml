@@ -21,5 +21,6 @@
 
   <modules>
     <module>vua-upms-client</module>
+    <module>vua-upms-common</module>
   </modules>
 </project>

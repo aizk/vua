@@ -38,5 +38,81 @@
 
     <bean id="upmsAuthenticationFilter" class="com.vua.upms.client.shiro.filter.UpmsAuthenticationFilter" />
 
+    <bean id="upmsSessionForceLogout" class="com.vua.upms.client.shiro.filter.UpmsSessionForceLogout" />
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realms">
+            <list>
+                <ref bean="upmsRealm" />
+            </list>
+        </property>
+        <property name="sessionManager" ref="sessionManager" />
+        <property name="rememberMeManager" ref="rememberMeManager" />
+    </bean>
+
+    <bean id="upmsRealm" class="com.vua.upms.client.shiro.realm.UpmsRealm" />
+
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="${upms.session.timeout}" />
+        <property name="sessionDAO" ref="sessionDAO" />
+        <property name="sessionIdCookieEnabled" value="true" />
+        <property name="sessionIdCookie" ref="sessionIdCookie" />
+        <property name="sessionValidationSchedulerEnabled" value="false" />
+        <property name="sessionListeners">
+            <list>
+                <ref bean="sessionListener" />
+            </list>
+        </property>
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
     <bean id="sessionDAO" class="com.vua.upms.client.shiro.session.UpmsSessionDao" />
+
+    <!-- Cookie -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <!-- httponly 不暴露给JS -->
+        <property name="httpOnly" value="true" />
+        <!-- 过期时间 －1表示关闭浏览器过期 -->
+        <property name="maxAge" value="-1" />
+        <!-- Cookie名称 -->
+        <property name="name" value="${upms.session.id}" />
+    </bean>
+
+    <bean id="sessionListener" class="com.vua.upms.client.shiro.listener.UpmsSessionListener" />
+
+    <bean id="sessionFactory" class="com.vua.upms.client.shiro.session.UpmsSessionFactory" />
+
+    <!-- rememberMe管理器 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）-->
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+
+    <!-- rememberMe缓存cookie -->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <!-- 不会暴露给客户端 -->
+        <property name="httpOnly" value="true"/>
+        <!-- 记住我cookie生效时间 -->
+        <property name="maxAge" value="${upms.rememberMe.timeout}"/>
+    </bean>
+
+    <!-- 设置SecurityUtils，相当于调用SecurityUtils.setSecurityManager(securityManager) -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+
+    <!-- 开启Shiro Spring AOP权限注解@RequiresPermissions的支持 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!-- Shiro生命周期处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
 </beans>

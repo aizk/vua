@@ -104,7 +104,7 @@ public class RedisUtil {
         try {
             Jedis jedis = getJedis();
             jedis.set(key, value);
-            jedis.expire(key, seconds);
+            jedis.expire(key, seconds); //可以对一个已经带有生存时间的 key 执行 EXPIRE 命令，新指定的生存时间会取代旧的生存时间。
             jedis.close();
         } catch (Exception e) {
             _log.error("set key seconds error : " + e);

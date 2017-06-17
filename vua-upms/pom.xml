@@ -7,13 +7,11 @@
     <artifactId>vua</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
+
   <groupId>com.vua</groupId>
   <artifactId>vua-upms</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${parent.version}</version>
   <packaging>pom</packaging>
-
-  <name>vua</name>
-  <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,5 +20,6 @@
   <modules>
     <module>vua-upms-client</module>
     <module>vua-upms-common</module>
+    <module>vua-upms-dao</module>
   </modules>
 </project>

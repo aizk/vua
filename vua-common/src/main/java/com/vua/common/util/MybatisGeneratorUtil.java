@@ -74,7 +74,17 @@ public class MybatisGeneratorUtil {
                 tables.add(table);
             }
             jdbcUtil.release();
-            
+
+            String targetProjectSqlMap = module + File.separator + module + "-rpc-service";
+            context.put("tables", tables);
+            context.put("generator_javaModelGenerator_targetPackage", package_name + ".dao.model");
+            context.put("generator_sqlMapGenerator_targetPackage", package_name + ".dao.mapper");
+            context.put("generator_javaClientGenerator_targetPackage", package_name + ".dao.mapper");
+            context.put("targetProject", targetProject);
+            context.put("targetProject_sqlMap", targetProjectSqlMap);
+            context.put("generator_jdbc_password", jdbc_password);
+            context.put("last_insert_id_tables", lase_insert_id_tables);
+            VelocityUtil.generate(generatorConfig_vm, module_path, context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,5 +114,15 @@ public class MybatisGeneratorUtil {
         str = str.substring(0, 1).toUpperCase() + str.substring(1);
 
         return str;
+    }
+
+    public static void deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                deleteDir(files[i]);
+            }
+        }
+        dir.delete(); //是目录就递归
     }
 }

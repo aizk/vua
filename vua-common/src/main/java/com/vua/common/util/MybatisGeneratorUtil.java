@@ -1,6 +1,5 @@
 package com.vua.common.util;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.velocity.VelocityContext;
 
@@ -8,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,13 +18,13 @@ import java.util.regex.Pattern;
 public class MybatisGeneratorUtil {
 
     // generatorConfig 模版路径
-    private static String generatorConfig_vm = "template/generatorConfig.vm";
+    private static String generatorConfig_vm = "/template/generatorConfig.vm";
     // Service 模版路径
-    private static String service_vm = "template/Service.vm";
+    private static String service_vm = "/template/Service.vm";
     // ServiceMock 服务模拟 模版路径
-    private static String serviceMock_vm = "template/ServiceMock.vm";
+    private static String serviceMock_vm = "/template/ServiceMock.vm";
     // ServiceImpl 模版路径
-    private static String serviceImpl_vm = "template/ServiceImpl.vm";
+    private static String serviceImpl_vm = "/template/ServiceImpl.vm";
 
     /**
      * 根据模板生成generatorConfig.xml文件
@@ -48,14 +48,17 @@ public class MybatisGeneratorUtil {
             String package_name,
             Map<String, String> lase_insert_id_tables) throws Exception {
 
+        //绝对路径
         generatorConfig_vm = MybatisGeneratorUtil.class.getResource(generatorConfig_vm).getPath().replaceFirst("/", "");
         service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath().replaceFirst("/", "");
         serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath().replaceFirst("/", "");
         serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath().replaceFirst("/", "");
         System.out.println("generatorConfig_vm : " + generatorConfig_vm + "service_vm : " + service_vm);
 
+        //目标文件夹 module = vua-upms
         String targetProject = module + File.separator + module + "-dao";
-        String module_path = module + File.separator + module + "-dao/src/main/resources/generatorConfig.xml";
+        //生产文件路径
+        String configPath = module + File.separator + module + "-dao/src/main/resources/generatorConfig.xml";
         String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "_%';";
 
         System.out.println("========== 开始生成generatorConfig.xml文件 ==========");
@@ -68,7 +71,7 @@ public class MybatisGeneratorUtil {
             List<Map> result = jdbcUtil.selectByParams(sql, null);
             for (Map map : result) {
                 System.out.println(map.get("TABLE_NAME"));
-                table = new HashedMap();
+                table = new HashMap();
                 table.put("table_name", map.get("TABLE_NAME"));
                 table.put("model_name", lineToHump(ObjectUtils.toString(map.get("TABLE_NAME"))));
                 tables.add(table);
@@ -84,10 +87,20 @@ public class MybatisGeneratorUtil {
             context.put("targetProject_sqlMap", targetProjectSqlMap);
             context.put("generator_jdbc_password", jdbc_password);
             context.put("last_insert_id_tables", lase_insert_id_tables);
-            VelocityUtil.generate(generatorConfig_vm, module_path, context);
+            //生产模板
+            VelocityUtil.generate(generatorConfig_vm, configPath, context);
+
+            deleteDir(new File(targetProject + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + package_name.replaceAll("\\.", File.separator) + File.separator + "dao" + File.separator + "model"));
+            deleteDir(new File(targetProject + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + package_name.replaceAll("\\.", File.separator) + File.separator + "dao" + File.separator + "mapper"));
+            //rpc-service dir
+            deleteDir(new File(targetProjectSqlMap + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + package_name.replaceAll("\\.", File.separator) + File.separator + "dao" + File.separator + "mapper"));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println("=========== 结束生成generatorConfig.xml文件 ===========");
+
+
     }
 
 

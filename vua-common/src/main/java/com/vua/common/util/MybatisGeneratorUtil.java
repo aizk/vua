@@ -1,13 +1,12 @@
 package com.vua.common.util;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,9 +55,9 @@ public class MybatisGeneratorUtil {
         System.out.println("generatorConfig_vm : " + generatorConfig_vm + "service_vm : " + service_vm);
 
         //目标文件夹 module = vua-upms
-        String targetProject = module + File.separator + module + "-dao";
+        String targetProject = module + "/" + module + "-dao";
         //生产文件路径
-        String configPath = module + File.separator + module + "-dao/src/main/resources/generatorConfig.xml";
+        String configPath = module + "/" + module + "-dao/src/main/resources/generatorConfig.xml";
         String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "_%';";
 
         System.out.println("========== 开始生成generatorConfig.xml文件 ==========");
@@ -78,7 +77,7 @@ public class MybatisGeneratorUtil {
             }
             jdbcUtil.release();
 
-            String targetProjectSqlMap = module + File.separator + module + "-rpc-service";
+            String targetProjectSqlMap = module + "/" + module + "-rpc-service";
             context.put("tables", tables);
             context.put("generator_javaModelGenerator_targetPackage", package_name + ".dao.model");
             context.put("generator_sqlMapGenerator_targetPackage", package_name + ".dao.mapper");
@@ -90,16 +89,62 @@ public class MybatisGeneratorUtil {
             //生产模板
             VelocityUtil.generate(generatorConfig_vm, configPath, context);
 
-            deleteDir(new File(targetProject + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + package_name.replaceAll("\\.", File.separator) + File.separator + "dao" + File.separator + "model"));
-            deleteDir(new File(targetProject + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + package_name.replaceAll("\\.", File.separator) + File.separator + "dao" + File.separator + "mapper"));
+            deleteDir(new File(targetProject + "/" + "src" + "/" + "main" + "/" + "java" + "/" + package_name.replaceAll("\\.", "/") + "/" + "dao" + "/" + "model"));
+            deleteDir(new File(targetProject + "/" + "src" + "/" + "main" + "/" + "java" + "/" + package_name.replaceAll("\\.", "/") + "/" + "dao" + "/" + "mapper"));
             //rpc-service dir
-            deleteDir(new File(targetProjectSqlMap + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + package_name.replaceAll("\\.", File.separator) + File.separator + "dao" + File.separator + "mapper"));
+            deleteDir(new File(targetProjectSqlMap + "/" + "src" + "/" + "main" + "/" + "java" + "/" + package_name.replaceAll("\\.", "/") + "/" + "dao" + "/" + "mapper"));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         System.out.println("=========== 结束生成generatorConfig.xml文件 ===========");
 
+        System.out.println("========== 开始生成Service ==========");
+        String ctime = new SimpleDateFormat("yyyy/M/d").format(new Date());
+        String servicePath = module + "/" + module + "-rpc-api" + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/rpc/api";
+        String serviceImplPath = module + "/" + module + "-rpc-service" + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/rpc/service/impl";
+        for (int i = 0; i < tables.size(); i++) {
+            String model = lineToHump(ObjectUtils.toString(tables.get(i).get("table_name")));
+            //api path
+            String service = servicePath + "/" + model + "Service.java";
+            //mock path
+            String serviceMock = servicePath + "/" + model + "ServiceMock.java";
+            //impl path
+            String serviceImpl = serviceImplPath + "/" + model + "ServiceImpl.java";
+
+            //根据模板生成service
+            File serviceFile = new File(service);
+            if (!serviceFile.exists()) {
+                VelocityContext context = new VelocityContext();
+                context.put("package_name", package_name);
+                context.put("model", model);
+                context.put("ctime", ctime);
+                VelocityUtil.generate(service_vm, service, context);
+                System.out.println("generator : " + service);
+            }
+            //生成serviceMock
+            File serviceMockFile = new File(serviceMock);
+            if (!serviceMockFile.exists()) {
+                VelocityContext context = new VelocityContext();
+                context.put("package_name", package_name);
+                context.put("model", model);
+                context.put("ctime", ctime);
+                VelocityUtil.generate(serviceMock_vm, serviceMock, context);
+                System.out.println("generator : " + serviceMock);
+            }
+            //生成serviceImpl
+            File serviceImplFile = new File(serviceImpl);
+            if (!serviceImplFile.exists()) {
+                VelocityContext context = new VelocityContext();
+                context.put("package_name", package_name);
+                context.put("model", model);
+                context.put("mapper", StringUtils.uncapitalize(model));
+                context.put("ctime", ctime);
+                VelocityUtil.generate(serviceImpl_vm, serviceImpl, context);
+                System.out.println("generator : " + serviceImpl);
+            }
+        }
+        System.out.println("========== 结束生成Service ==========");
 
     }
 

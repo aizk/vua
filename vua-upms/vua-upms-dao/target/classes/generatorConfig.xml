@@ -51,7 +51,7 @@
                         userId="${generator.jdbc.username}"
                         password="123456" />
 
-        <!-- model生成 生产的包名和位    置 -->
+        <!-- model生成 生产的包名和位置 -->
         <javaModelGenerator targetPackage="com.vua.upms.dao.model" targetProject="vua-upms/vua-upms-dao/src/main/java" />
 
         <!-- MapperXML生成 -->

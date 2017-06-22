@@ -18,5 +18,7 @@
     <module>vua-upms-client</module>
     <module>vua-upms-common</module>
     <module>vua-upms-dao</module>
+      <module>vua-upms-rpc-service</module>
+      <module>vua-upms-rpc-api</module>
   </modules>
 </project>

@@ -21,7 +21,7 @@ public interface BaseService<Record, Example> {
 
     List<Record> selectByExampleWithBLOBs(Example example);
 
-    List<Record> selectByExamplt(Example example);
+    List<Record> selectByExample(Example example);
 
     List<Record> selectByExampleWithBLOBsForStartPage(Example example, Integer pageNum, Integer pageSize);
 

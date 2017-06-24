@@ -11,6 +11,13 @@
 
     <artifactId>vua-upms-rpc-service</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.vua</groupId>
+            <artifactId>vua-upms-rpc-api</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
     <profiles>
         <profile>
             <id>dev</id>

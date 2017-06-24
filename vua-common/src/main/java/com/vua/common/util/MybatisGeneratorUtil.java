@@ -48,10 +48,10 @@ public class MybatisGeneratorUtil {
             Map<String, String> lase_insert_id_tables) throws Exception {
 
         //绝对路径
-        generatorConfig_vm = MybatisGeneratorUtil.class.getResource(generatorConfig_vm).getPath().replaceFirst("/", "");
-        service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath().replaceFirst("/", "");
-        serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath().replaceFirst("/", "");
-        serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath().replaceFirst("/", "");
+        generatorConfig_vm = MybatisGeneratorUtil.class.getResource(generatorConfig_vm).getPath().replaceFirst("/", "/");
+        service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath().replaceFirst("/", "/");
+        serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath().replaceFirst("/", "/");
+        serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath().replaceFirst("/", "/");
         System.out.println("generatorConfig_vm : " + generatorConfig_vm + "service_vm : " + service_vm);
 
         //目标文件夹 module = vua-upms

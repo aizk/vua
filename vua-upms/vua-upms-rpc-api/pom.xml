@@ -10,6 +10,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>vua-upms-rpc-api</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.vua</groupId>
+            <artifactId>vua-common</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vua</groupId>
+            <artifactId>vua-upms-dao</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

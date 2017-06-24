@@ -18,8 +18,8 @@ public class UpmsRealm extends AuthorizingRealm {
 
     private static Logger _log = LoggerFactory.getLogger(UpmsRealm.class);
 
-    //@Autowired
-    //private UpmsApiService upmsApiService;
+    @Autowired
+    private UpmsApiService upmsApiService;
 
     //授权
     @Override

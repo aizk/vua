@@ -49,16 +49,16 @@
         <jdbcConnection driverClass="${generator.jdbc.driver}"
                         connectionURL="${generator.jdbc.url}"
                         userId="${generator.jdbc.username}"
-                        password="123456" />
+                        password="admin" />
 
-        <!-- model生成 生产的包名和位    置 -->
-        <javaModelGenerator targetPackage="com.vua.upms.dao.model" targetProject="vua-upms/vua-upms-dao/src/main/java" />
+        <!-- model生成 生产的包名和位置 -->
+        <javaModelGenerator targetPackage="com.vua.upms.dao.model" targetProject="/Users/liunian/Desktop/vua/vua-upms/vua-upms-dao/src/main/java" />
 
         <!-- MapperXML生成 -->
-        <sqlMapGenerator targetPackage="com.vua.upms.dao.mapper" targetProject="vua-upms/vua-upms-rpc-service/src/main/java" />
+        <sqlMapGenerator targetPackage="com.vua.upms.dao.mapper" targetProject="/Users/liunian/Desktop/vua/vua-upms/vua-upms-rpc-service/src/main/java" />
 
         <!-- Mapper接口生成 -->
-        <javaClientGenerator targetPackage="com.vua.upms.dao.mapper" targetProject="vua-upms/vua-upms-dao/src/main/java" type="XMLMAPPER" />
+        <javaClientGenerator targetPackage="com.vua.upms.dao.mapper" targetProject="/Users/liunian/Desktop/vua/vua-upms/vua-upms-dao/src/main/java" type="XMLMAPPER" />
 
         <!-- 需要映射的表 -->
         <!-- 需要映射的表 -->

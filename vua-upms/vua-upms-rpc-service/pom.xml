@@ -45,7 +45,7 @@
     <build>
         <!--过滤resources中的资源文件，过滤时采用的过滤文件为${env}.properties} env是一个变量表示当前环境-->
         <filters>
-            <filter>src/main/resources/profiles/${env}.properties}</filter>
+            <filter>src/main/resources/profiles/${env}.properties</filter>
         </filters>
         <!--定义env变量-->
         <resources>

@@ -1,12 +1,12 @@
 package com.vua.upms.client.shiro.realm;
 
+import com.vua.common.util.MD5Util;
+import com.vua.common.util.PropertiesFileUtil;
 import com.vua.upms.dao.model.UpmsPermission;
 import com.vua.upms.dao.model.UpmsRole;
 import com.vua.upms.dao.model.UpmsUser;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -62,6 +62,26 @@ public class UpmsRealm extends AuthorizingRealm {
     //认证
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        return null;
+        String username = (String)authenticationToken.getPrincipal();
+        String password = new String((char[])authenticationToken.getPrincipal());
+
+        //单点登陆认证 client无密认证
+        String upmsType = PropertiesFileUtil.getInstance("vua-upms-client").get("vua.upms.type");
+        if ("client".equals(upmsType)) {
+            return new SimpleAuthenticationInfo(username, password, getName());
+        }
+
+        UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
+
+        if (null == upmsUser) {
+            throw new UnknownAccountException();
+        }
+        if (!upmsUser.getPassword().equals(MD5Util.MD5( password + upmsUser.getSalt()))) {
+            throw new IncorrectCredentialsException();
+        }
+        if (upmsUser.getLocked() == 1) {
+            throw new LockedAccountException();
+        }
+        return new SimpleAuthenticationInfo(username, password, getName());
     }
 }

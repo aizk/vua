@@ -3,7 +3,7 @@ package com.vua.upms.rpc.service.impl;
 import com.vua.upms.dao.mapper.*;
 import com.vua.upms.dao.model.*;
 import com.vua.upms.rpc.api.UpmsApiService;
-import com.vua.upms.rpc.mapper.UpmsApiMapper;
+import com.vua.upms.dao.mapper.UpmsApiMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.vua.upms.rpc.mapper;
+package com.vua.upms.dao.mapper;
 
 import java.util.List;
 import com.vua.upms.dao.model.UpmsPermission;

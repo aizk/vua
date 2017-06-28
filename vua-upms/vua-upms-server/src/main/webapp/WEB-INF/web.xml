@@ -46,9 +46,9 @@
       <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    DelegatingFilterProxy类是一个代理类，所以的请求都会首先发到这个filter代理，然后按照filter-name委派到spring中的这个bean
-    在spring中配置的bean的name要和web.xml中的filter-name一样
-    spring bean实现了Filter接口，但默认情况下，是由spring容器来管理其生命周期的(不是由tomcat这种服务器容器来管理)。如果设置"targetFilterLifecycle"为True，则spring来管理Filter.init()和Filter.destroy()；若为false，则这两个方法失效
+    <!--DelegatingFilterProxy类是一个代理类，所以的请求都会首先发到这个filter代理，然后按照filter-name委派到spring中的这个bean-->
+    <!--在spring中配置的bean的name要和web.xml中的filter-name一样-->
+    <!--spring bean实现了Filter接口，但默认情况下，是由spring容器来管理其生命周期的(不是由tomcat这种服务器容器来管理)。如果设置"targetFilterLifecycle"为True，则spring来管理Filter.init()和Filter.destroy()；若为false，则这两个方法失效-->
     <filter>
       <filter-name>shiroFilter</filter-name>
       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

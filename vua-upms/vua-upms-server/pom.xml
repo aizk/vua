@@ -14,6 +14,16 @@
         <dependency>
             <groupId>com.vua</groupId>
             <artifactId>vua-upms-client</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vua</groupId>
+            <artifactId>vua-upms-rpc-api</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vua</groupId>
+            <artifactId>vua-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

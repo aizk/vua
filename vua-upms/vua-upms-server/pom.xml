@@ -45,5 +45,23 @@
     </dependencies>
     <build>
         <finalName>vua-upms-server</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.2.7.v20150116</version>
+                <configuration>
+                    <scanIntervalSeconds>3</scanIntervalSeconds>
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
+                    <httpConnector>
+                        <port>1111</port>
+                    </httpConnector>
+                    <reload>automatic</reload>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

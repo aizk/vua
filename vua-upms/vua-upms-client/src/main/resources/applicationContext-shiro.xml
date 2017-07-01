@@ -15,9 +15,9 @@
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="${sso.server.url}" />
-        <property name="successUrl" value="${upms.successUrl}" />
-        <property name="unauthorizedUrl" value="${upms.unauthorizedUrl}" />
+        <property name="loginUrl" value="${vua.upms.sso.server.url}" />
+        <property name="successUrl" value="${vua.upms.successUrl}" />
+        <property name="unauthorizedUrl" value="${vua.upms.unauthorizedUrl}" />
 
         <property name="filters" >
             <util:map>
@@ -55,7 +55,7 @@
 
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="${upms.session.timeout}" />
+        <property name="globalSessionTimeout" value="${vua.upms.session.timeout}" />
         <property name="sessionDAO" ref="sessionDAO" />
         <property name="sessionIdCookieEnabled" value="true" />
         <property name="sessionIdCookie" ref="sessionIdCookie" />
@@ -77,7 +77,7 @@
         <!-- 过期时间 －1表示关闭浏览器过期 -->
         <property name="maxAge" value="-1" />
         <!-- Cookie名称 -->
-        <property name="name" value="${upms.session.id}" />
+        <property name="name" value="${vua.upms.session.id}" />
     </bean>
 
     <bean id="sessionListener" class="com.vua.upms.client.shiro.listener.UpmsSessionListener" />
@@ -97,7 +97,7 @@
         <!-- 不会暴露给客户端 -->
         <property name="httpOnly" value="true"/>
         <!-- 记住我cookie生效时间 -->
-        <property name="maxAge" value="${upms.rememberMe.timeout}"/>
+        <property name="maxAge" value="${vua.upms.rememberMe.timeout}"/>
     </bean>
 
     <!-- 设置SecurityUtils，相当于调用SecurityUtils.setSecurityManager(securityManager) -->

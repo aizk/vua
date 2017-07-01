@@ -19,7 +19,7 @@ public class RedisUtil {
     //port
     private static int PORT = PropertiesFileUtil.getInstance("redis").getInt("master.redis.port");
     //password
-    private static String PASSWORD = AESUtil.AESDecode(PropertiesFileUtil.getInstance("redis").get("master.redis.password"));
+    private static String PASSWORD = PropertiesFileUtil.getInstance("redis").get("master.redis.password");
     // max active connection
     private static int MAX_ACTIVE = PropertiesFileUtil.getInstance("redis").getInt("master.redis.max_active");
 

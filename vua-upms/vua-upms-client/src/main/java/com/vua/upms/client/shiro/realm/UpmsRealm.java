@@ -63,7 +63,7 @@ public class UpmsRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String)authenticationToken.getPrincipal();
-        String password = new String((char[])authenticationToken.getPrincipal());
+        String password = new String((char[])authenticationToken.getCredentials());
 
         //单点登陆认证 client无密认证
         String upmsType = PropertiesFileUtil.getInstance("vua-upms-client").get("vua.upms.type");

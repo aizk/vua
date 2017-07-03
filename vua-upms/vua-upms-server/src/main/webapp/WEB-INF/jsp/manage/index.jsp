@@ -14,11 +14,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>权限管理系统</title>
 
-    <link href="${basePath}/resources/zheng-admin/plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/css/admin.css" rel="stylesheet"/>
+    <link href="${basePath}/resources/plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="${basePath}/resources/plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet"/>
+    <link href="${basePath}/resources/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
+    <link href="${basePath}/resources/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
+    <link href="${basePath}/resources/css/admin.css" rel="stylesheet"/>
     <style>
         /** skins **/
         <c:forEach var="upmsSystem" items="${upmsSystems}">
@@ -40,7 +40,7 @@
         </li>
         <li id="logo" class="hidden-xs">
             <a href="${basePath}/manage/index">
-                <img src="${basePath}/resources/zheng-admin/images/logo.png"/>
+                <img src="${basePath}/resources/images/logo.png"/>
             </a>
             <span id="system_title">权限管理系统</span>
         </li>
@@ -202,15 +202,15 @@
 </section>
 <footer id="footer"></footer>
 <script>var BASE_PATH = '${basePath}';</script>
-<script src="${basePath}/resources/zheng-admin/plugins/jquery.1.12.4.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/waves-0.7.5/waves.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/BootstrapMenu.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/device.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/jquery.cookie.js"></script>
-<script src="${basePath}/resources/zheng-admin/js/admin.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/fullPage/jquery.fullPage.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/fullPage/jquery.jdirk.min.js"></script>
+<script src="${basePath}/resources/plugins/jquery.1.12.4.min.js"></script>
+<script src="${basePath}/resources/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<script src="${basePath}/resources/plugins/waves-0.7.5/waves.min.js"></script>
+<script src="${basePath}/resources/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="${basePath}/resources/plugins/BootstrapMenu.min.js"></script>
+<script src="${basePath}/resources/plugins/device.min.js"></script>
+<script src="${basePath}/resources/plugins/jquery.cookie.js"></script>
+<script src="${basePath}/resources/js/admin.js"></script>
+<script src="${basePath}/resources/plugins/fullPage/jquery.fullPage.min.js"></script>
+<script src="${basePath}/resources/plugins/fullPage/jquery.jdirk.min.js"></script>
 </body>
 </html>

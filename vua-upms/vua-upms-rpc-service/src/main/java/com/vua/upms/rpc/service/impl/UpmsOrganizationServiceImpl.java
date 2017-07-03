@@ -13,17 +13,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
-* UpmsOrganizationService实现
-* Created on 2017/6/24.
-*/
+ * UpmsOrganizationService实现
+ * Created on 2017/6/24.
+ */
 @Service
 @Transactional
 @BaseService
 public class UpmsOrganizationServiceImpl extends BaseServiceImpl<UpmsOrganizationMapper, UpmsOrganization, UpmsOrganizationExample> implements UpmsOrganizationService {
 
-private static Logger _log = LoggerFactory.getLogger(UpmsOrganizationServiceImpl.class);
+    private static Logger _log = LoggerFactory.getLogger(UpmsOrganizationServiceImpl.class);
 
-@Autowired
-UpmsOrganizationMapper upmsOrganizationMapper;
+    @Autowired
+    UpmsOrganizationMapper upmsOrganizationMapper;
 
 }

@@ -1,29 +1,64 @@
 package com.vua.upms.rpc.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.vua.common.annotation.BaseService;
 import com.vua.common.base.BaseServiceImpl;
 import com.vua.upms.dao.mapper.UpmsPermissionMapper;
+import com.vua.upms.dao.mapper.UpmsSystemMapper;
+import com.vua.upms.dao.mapper.UpmsUserPermissionMapper;
 import com.vua.upms.dao.model.UpmsPermission;
 import com.vua.upms.dao.model.UpmsPermissionExample;
+import com.vua.upms.dao.model.UpmsRolePermission;
+import com.vua.upms.dao.model.UpmsSystemExample;
+import com.vua.upms.rpc.api.UpmsApiService;
 import com.vua.upms.rpc.api.UpmsPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import springfox.documentation.spring.web.json.Json;
+
+import java.util.List;
 
 /**
-* UpmsPermissionService实现
-* Created on 2017/6/24.
-*/
+ * UpmsPermissionService实现
+ * Created on 2017/6/24.
+ */
 @Service
 @Transactional
 @BaseService
 public class UpmsPermissionServiceImpl extends BaseServiceImpl<UpmsPermissionMapper, UpmsPermission, UpmsPermissionExample> implements UpmsPermissionService {
 
-private static Logger _log = LoggerFactory.getLogger(UpmsPermissionServiceImpl.class);
+    private static Logger _log = LoggerFactory.getLogger(UpmsPermissionServiceImpl.class);
 
-@Autowired
-UpmsPermissionMapper upmsPermissionMapper;
+    @Autowired
+    UpmsSystemMapper upmsSystemMapper;
 
+    @Autowired
+    UpmsUserPermissionMapper upmsUserPermissionMapper;
+
+    @Autowired
+    UpmsApiService upmsApiService;
+
+    @Autowired
+    UpmsPermissionMapper upmsPermissionMapper;
+
+
+    @Override
+    public JSONArray getTreeByRoleId(Integer id) {
+        //角色已有权限
+        List<UpmsRolePermission> rolePermissions = upmsApiService.selectUpmsRolePermisstionByUpmsRoleId(id);
+
+        JSONArray systems = new JSONArray();
+
+        UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
+        upmsSystemExample.createCriteria().andStatusEqualTo((byte)1);
+        return null;
+    }
+
+    @Override
+    public JSONArray getTreeByUserId(Integer userId, Byte type) {
+        return null;
+    }
 }

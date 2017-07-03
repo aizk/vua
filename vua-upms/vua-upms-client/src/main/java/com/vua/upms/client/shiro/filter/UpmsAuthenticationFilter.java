@@ -21,6 +21,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.AuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,23 +66,24 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        String ssoServerUrl = PropertiesFileUtil.getInstance("vua-upms-client").get("sso.server.url");
-        String upmsType = PropertiesFileUtil.getInstance("vua-upms-client").get("upms.type");
+        StringBuffer ssoServerUrl = new StringBuffer(PropertiesFileUtil.getInstance("vua-upms-client").get("vua.upms.sso.server.url"));
+
+        String upmsType = PropertiesFileUtil.getInstance("vua-upms-client").get("vua.upms.type");
         if ("server".equals(upmsType)) {
-            ((HttpServletResponse)servletResponse).sendRedirect(ssoServerUrl + "/sso/login");
-            _log.debug("in onAccessDenied sendRedirect to /sso/login");
+            WebUtils.toHttp(servletResponse).sendRedirect(ssoServerUrl.append("/sso/login").toString());
             return false;
         }
-        ssoServerUrl = ssoServerUrl + "/sso/index?appid=" + PropertiesFileUtil.getInstance("vua-upms-client").get("appId");
+        ssoServerUrl.append("/sso/index").append("?").append("appid").append("=").append(PropertiesFileUtil.getInstance("vua-upms-client").get("vua.upms.appId"));
+
         //跳到服务端后的回跳地址
-        HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
+        HttpServletRequest httpServletRequest = WebUtils.toHttp(servletRequest);
         StringBuffer backUrl = httpServletRequest.getRequestURL();
         String queryString = httpServletRequest.getQueryString();
         if (StringUtils.isNotBlank(queryString)) {
             backUrl.append("?").append(queryString);
         }
-        ssoServerUrl = ssoServerUrl + "&backurl=" + backUrl.toString();
-        ((HttpServletResponse)servletResponse).sendRedirect(ssoServerUrl);
+        ssoServerUrl.append("&").append("backurl").append("=").append(URLEncoder.encode(backUrl.toString(), "utf-8"));
+        WebUtils.toHttp(servletResponse).sendRedirect(ssoServerUrl.toString());
         return false;
     }
 

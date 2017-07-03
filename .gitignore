@@ -2,3 +2,5 @@
 *.iml
 .idea
 target
+vua-upms/vua-upms-server/src/main/webapp/resources/images/logo.png
+vua-upms/vua-upms-server/src/main/resources/config.properties

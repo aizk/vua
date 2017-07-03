@@ -62,7 +62,7 @@ public class SSOController extends BaseController {
     @ApiOperation(value = "认证中心首页")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(HttpServletRequest request) throws Exception {
-        String appId = request.getParameter("appid");
+        String appId = request.getParameter("appid");  //sysname
         //返回的Url
         String backUrl = request.getParameter("backurl");
         if (StringUtils.isBlank(appId)) {
@@ -70,10 +70,11 @@ public class SSOController extends BaseController {
         }
         //判断认证系统是否注册
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
-        upmsSystemExample.createCriteria().andNameEqualTo(appId);
+        upmsSystemExample.createCriteria()
+                .andNameEqualTo(appId);
         int count = upmsSystemService.countByExample(upmsSystemExample);
         if (0 == count) {
-            throw new RuntimeException(String.format("未注册的系统:%s", appId));
+            throw new RuntimeException(String.format("未注册的系统:%s --- %d", appId, count));
         }
         return "redirect:/sso/login?backurl=" + URLEncoder.encode(backUrl, "utf-8");
     }
@@ -102,7 +103,7 @@ public class SSOController extends BaseController {
             _log.debug("认证中心账号通过，带code回跳:{}", backUrl);
             return "redirect:" + backUrl;
         }
-        return "sso/login.jsp";
+        return "/sso/login.jsp";
     }
 
     @ApiOperation(value = "登陆-POST")

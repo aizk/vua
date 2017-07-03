@@ -30,7 +30,7 @@
                 /manage/index = user
                 /druid/** = user
                 /swagger-ui.html = user
-                /resources/** = user
+                /resources/** = anon
                 /** = anon
             </value>
         </property>

@@ -26,7 +26,7 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-                /manage/** = authc,upmsSessionForceLogout
+                /manage/** = authc
                 /manage/index = user
                 /druid/** = user
                 /swagger-ui.html = user

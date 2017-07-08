@@ -1,6 +1,5 @@
 package com.vua.upms.client.shiro.filter;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;

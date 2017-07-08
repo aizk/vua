@@ -45,15 +45,15 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
 
     private final static String VUA_UPMS_CLIENT_SESSION_IDS = "vua-upms-client-session-ids";
 
-//    @Autowired
-//    UpmsSessionDao upmsSessionDao;
+    @Autowired
+    UpmsSessionDao upmsSessionDao;
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         Subject subject = getSubject(request, response);
         Session session = subject.getSession();
         //判断当前应用类型
-        String upmsType = PropertiesFileUtil.getInstance("vua-upms-client").get("upms.type");
+        String upmsType = PropertiesFileUtil.getInstance("vua-upms-client").get("vua.upms.type");
         session.setAttribute(UpmsConstant.UPMS_TYPE, upmsType);
         if ("server".equals(upmsType)) {
             return subject.isAuthenticated();
@@ -120,7 +120,7 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
         if (StringUtils.isNotBlank(code)) {
             //HttpPost校验code
             try {
-                StringBuffer ssoServerUrl = new StringBuffer(PropertiesFileUtil.getInstance("vua-upms-client").get("sso.server.url"));
+                StringBuffer ssoServerUrl = new StringBuffer(PropertiesFileUtil.getInstance("vua-upms-client").get("vua.upms.sso.server.url"));
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 HttpPost httpPost = new HttpPost(ssoServerUrl.toString() + "/sso/code");
 
